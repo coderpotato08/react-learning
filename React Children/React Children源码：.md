@@ -338,7 +338,7 @@ return subtreeCount;
 
 ### React.Children.map源码思路总结：
 
-![v2-d851709ccbc01e284dacb93d1dbdc8a5_1440w](/Users/bk/Desktop/学习资料/react源码学习/v2-d851709ccbc01e284dacb93d1dbdc8a5_1440w.jpeg)
+![v2-d851709ccbc01e284dacb93d1dbdc8a5_1440w](./v2-d851709ccbc01e284dacb93d1dbdc8a5_1440w.jpeg)
 
 其中进行了两次关键的判断：
 
