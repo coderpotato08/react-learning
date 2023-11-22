@@ -133,6 +133,17 @@ function deleteChild(returnFiber: Fiber, childToDelete: Fiber): void {
 }
 ```
 
+#### placeSingleChild标记新增：
+```js
+function placeSingleChild(newFiber: Fiber): Fiber {
+  // 如果fiber没有alternate属性，说明是新增，打上Placement新增标签
+  if (shouldTrackSideEffects && newFiber.alternate === null) {
+    newFiber.flags |= Placement;
+  }
+  return newFiber;
+}
+```
+
 ### 1.2 reconcileChildrenArray多节点diff：
 
 多节点diff比较复杂，我们分三种情况进行讨论，其中a表示更新前的节点，b表示更新后的节点

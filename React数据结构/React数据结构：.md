@@ -33,7 +33,7 @@ export type ReactElement = {|
 
 ReactRoot的结构如下：包含**_internalRoot**属性指向**FiberRootNode**，同时原型上挂载了**render**方法和**unmount**方法
 
-![reactroot](/Users/bk/Desktop/学习资料/react源码学习/React数据结构/reactroot.png)
+![reactroot](./reactroot.png)
 
 ## FiberRoot结构：
 
@@ -61,11 +61,11 @@ function FiberNode(
 ) {
 
   // Fiber元素的静态属性相关
-  this.tag = tag;
+  this.tag = tag; // 组件对象类型
   this.key = key; // fiber的key
   this.elementType = null;
   this.type = null; // fiber对应的DOM元素的标签类型，div、p...
-  this.stateNode = null; // fiber的实例，类组件场景下，是组件的类，HostComponent场景，是dom元素
+  this.stateNode = null; // fiber的实例，类组件场景下，是组件的类实例，HostComponent场景，是dom元素
 
   // Fiber 链表相关
   this.return = null; // 指向父级fiber
@@ -76,7 +76,7 @@ function FiberNode(
   this.ref = null; // ref相关
 
   // Fiber更新相关
-  this.pendingProps = pendingProps;
+  this.pendingProps = pendingProps; // 组件初始化props
   this.memoizedProps = null;
   this.updateQueue = null; // 存储update的链表
   this.memoizedState = null; // 类组件存储fiber的状态，函数组件存储hooks链表

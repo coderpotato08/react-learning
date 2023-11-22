@@ -360,9 +360,9 @@ function beginWork(
 
 ```js
 export function reconcileChildren(
-  current: Fiber | null,
-  workInProgress: Fiber,
-  nextChildren: any,
+  current: Fiber | null, // current就是当前fiber指向节点
+  workInProgress: Fiber, // 当前workInProgress指向节点
+  nextChildren: any, // 新更新的ReactElement
   renderLanes: Lanes,
 ) {
   if (current === null) {
