@@ -102,6 +102,30 @@ const performWorkUntilDeadline = () => {
   needsPaint = false;
 };
 ```
+任务调度控制函数在不同环境下会被处理成不同的异步任务
+- setImmediate node环境下的check任务
+- MessageChannel 浏览器环境下的微任务
+- setTimeout 浏览器环境下的宏任务/node下的定时器任务
+
+`performWorkUntilDeadline`会针对当前环境，去降级地对任务控制函数处理
+```javaScript
+if (typeof localSetImmediate === 'function') {
+  // setImmediate
+  schedulePerformWorkUntilDeadline = () => {
+    localSetImmediate(performWorkUntilDeadline);
+  };
+} else if (typeof MessageChannel !== 'undefined') {
+  // MessageChannel
+  const channel = new MessageChannel();
+  // ...
+} else {
+  // setTimeout
+  schedulePerformWorkUntilDeadline = () => {
+    localSetTimeout(performWorkUntilDeadline, 0);
+  };
+}
+```
+
 **整个MessageChannel实现任务循环的过程**
 ![MessageChannel实现任务循环](./MessageChannel实现任务循环.webp)
 
@@ -165,7 +189,7 @@ function unstable_scheduleCallback(priorityLevel, callback, options) {
   var timeout;
   switch (priorityLevel) {
     case ImmediatePriority://优先级越高timeout越小
-      timeout = IMMEDIATE_PRIORITY_TIMEOUT;//-1
+      timeout = IMMEDIATE_PRIORITY_TIMEOUT;//-1 
       break;
     case UserBlockingPriority:
       timeout = USER_BLOCKING_PRIORITY_TIMEOUT;//250
@@ -370,7 +394,7 @@ function advanceTimers(currentTime) {
 ```
 
 ## Scheduler模块callback主体
-我们知道Scheduler模块以**schduleCallback(*unstable_scheduleCallback*)**为调用入口，来为callback注册优先级（定义过期时间）
+我们知道Scheduler模块以**schduleCallback(*unstable_scheduleCallback*)** 为调用入口，来为callback注册优先级（定义过期时间）
 
 而这个callback的主体是什么呢？
 
